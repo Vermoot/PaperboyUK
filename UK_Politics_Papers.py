@@ -72,8 +72,9 @@ class Paper:
 
     def has_own_frontpage(self, tweet):  # To be used only in the paper's own twitter account
         if (is_recent_enough(tweet) and  # Tweet isn't old enough for the front page to be yesterday's
-            ("front page" in tweet.full_text.lower() or  # Tweet contains "front page"
-            self.has_frontpage(tweet))):
+            ("front page" in tweet.full_text.lower() or
+             "#frontpage" in tweet.full_text.lower() or  # Tweet contains "front page"
+             self.has_frontpage(tweet))):
                     return True
 
     def has_frontpage(self, tweet):
@@ -90,7 +91,7 @@ class Paper:
         global errors
         try:
             self.source = "%s (@%s)" % (tweet.author.name, tweet.author.screen_name)
-            self.tweet_link = "https://twitter.com/" + self.account + "/status/" + str(tweet._json["id"])
+            self.tweet_link = "https://twitter.com/" + tweet.author.screen_name + "/status/" + str(tweet._json["id"])
             self.debug(tweet)
             return tweet.extended_entities["media"][0]["media_url"]  # Front page picture URL got.
         except AttributeError:
@@ -130,7 +131,7 @@ TheSun = Paper("The Sun", ["Sun", "Sun on Sunday"], "TheSun")
 ScottishSun = Paper("The Scottish Sun", ["Scottish Sun"], "scottishsun")
 Metro = Paper("Metro", ["Metro"], "MetroUK")
 DailyMail = Paper("Daily Mail", ["Daily Mail", "Mail", "Mail on Sunday"], "MailOnline")
-DailyExpress = Paper("Daily Express", ["Daily Express", "Express", "Sunday Express"], "dailyexpressuk")
+DailyExpress = Paper("Daily Express", ["Daily Express", "Express", "Sunday Express"], "daily_express")
 iNews = Paper("i News", ["i"], "theipaper")
 Independent = Paper("The Independent", ["Independent"], "Independent")
 Telegraph = Paper("The Telegraph", ["Daily Telegraph", "Telegraph", "Sunday Telegraph"], "TelegraphNews")
@@ -166,11 +167,12 @@ for tweet in cfb_tl:
 Papers.insert(0, Collage)
 
 # Special treatment for P&J regional papers  # TODO This could probably be done with a proper Paper declaration
-PnJnames = ["Aberdeen", "North-East", "North-east", "North East", "Moray", "Inverness"]
+PnJnames = ["Aberdeen and Aberdeenshire", "Aberdeen", "North-East", "North-east", "North East", "Moray",
+            "Inverness, Highlands and Islands", "Inverness"]
 thisPaper = ""
 for tweet in tw.user_timeline("pressjournal", count=100, tweet_mode="extended"):
     if ("front page" in tweet.full_text.lower() and  # Tweet contains "front page" (case insensitive)
-            dt.datetime.utcnow() - tweet.created_at < dt.timedelta(hours=22)):  # Tweet is under 22 hours old
+            is_recent_enough(tweet)):
         for name in PnJnames:
             if name in tweet.full_text:
                 thisPaper = name
@@ -214,7 +216,7 @@ def upload_frontpages():
             print("There was no image to upload for " + paper.name + ".")
 
 
-#upload_frontpages()
+upload_frontpages()
 
 
 def post_album_on_reddit():
@@ -225,14 +227,14 @@ def post_album_on_reddit():
             sources_url += (paper.name + " : " + paper.tweet_link + "  \n")
     global album
     global errors
-    post = reddit.subreddit("test").submit(title="The Papers (" + today + ")",
+    post = reddit.subreddit("ukpolitics").submit(title="The Papers (" + today + ")",
                                            url=("http://www.imgur.com/a/" + album["id"]))
     comment = ("Tomorrow's front pages rehosted on Imgur.\n\n" +
                "All from twitter:\n\n" +
                sources_url +
                "[Yesterday's papers](" + yesterdays_album_url + ")\n\n" +
                "---\n"+
-               "This post and comment have been created by the PaperboyUK bot, written by Vermoot.\n\n"+
+               "This post and comment have been created by the PaperboyUK bot, written by Vermoot with help from /u/FordTippex.\n\n"+
                "If you find an error in the album, such as a paper being mislabeled or an image that isn't a newspaper front page, reply to this comment and mention Vermoot so he can see it.\n\n")
 
     if errors != "":
@@ -240,4 +242,4 @@ def post_album_on_reddit():
 
     reddit.submission(id=post.id).reply(comment)
 
-#post_album_on_reddit()
+post_album_on_reddit()
