@@ -266,7 +266,7 @@ def post_album_on_reddit():
 
     reddit.submission(id=post.id).reply(comment)
 
-    print("Posted the album on reddit")
+    print("Posted the album on reddit : "+)
 
 post_album_on_reddit()
 
