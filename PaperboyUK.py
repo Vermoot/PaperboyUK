@@ -31,11 +31,12 @@ reddit = praw.Reddit(client_id='L5usbKU_UnkPOQ',
 dt = datetime
 
 # Date in D/M/Y format for use in imgur album name and other places
-today = "%02i/%02i/%02i" % (dt.date.today().day,
-                            dt.date.today().month,
-                            dt.date.today().year)
+target_date = dt.datetime.today() + dt.timedelta(days=1)
+today = "%02i/%02i/%02i" % (target_date.day,
+                            target_date.month,
+                            target_date.year)
 
-day_of_the_week = datetime.datetime.today().strftime('%A')
+day_of_the_week = target_date.strftime('%A')
 
 # Get @BBCNews, @AllieHBNews and @MsHelicat's last 100 tweets
 BBCtimeline = (tw.user_timeline("BBCNews", count=100, tweet_mode="extended", page=1,
