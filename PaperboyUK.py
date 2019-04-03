@@ -192,7 +192,7 @@ for tweet in tw.user_timeline("walesonline", count=100, tweet_mode="extended"):
 
 # Special treatment for P&J regional papers  # TODO redo special treatments properly
 PnJnames = ["Aberdeen and Aberdeenshire", "Aberdeen", "North-East", "North East", "Moray",
-            "Inverness, Highlands and Islands", "Highlands and Islands", "Highlands", "Inverness"]
+            "Inverness, Highlands and Islands", "Highlands and Islands", "Highlands", "Inverness", "blablabla"]
 thisPnjPaper = ""
 for tweet in tw.user_timeline("pressjournal", count=100, tweet_mode="extended"):
     if ("front page" in tweet.full_text.lower() and  # Tweet contains "front page" (case insensitive)
@@ -245,7 +245,7 @@ upload_frontpages()
 
 
 def post_album_on_reddit():
-    yesterdays_album_url = "http://www.imgur.com/a/" + imgur.get_account_album_ids("UkPoliticsPapers")[1]
+    yesterdays_album_url = "http://www.imgur.com/a/" + imgur.get_account_album_ids("PaperboyUK")[1]
     sources_url = ""
     for paper in Papers:
         if paper.front_page_url is not None and paper.source is not None:
