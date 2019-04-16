@@ -128,7 +128,7 @@ class Paper:
 
 
 # Class init for each wanted paper #
-DailyStar = Paper("Daily Star", ["Star", "Daily Star"], "Daily_Star")
+DailyStar = Paper("Daily Star", ["Star", "Daily Star", "Daily Star Sunday"], "Daily_Star")
 DailyMirror = Paper("Daily Mirror", ["Mirror", "Daily Mirror", "Sunday Mirror"], "DailyMirror")
 TheSun = Paper("The Sun", ["Sun", "Sun on Sunday"], "TheSun")
 ScottishSun = Paper("The Scottish Sun", ["Scottish Sun", "Scottish Sun on Sunday"], "scottishsun")
@@ -164,6 +164,7 @@ Collage = Paper("Front pages Collage", account="cfbcity", source="https://www.tw
 cfb_tl = tw.user_timeline("cfbcity", count=30, tweet_mode="extended", include_rts="false", exclude_replies="true")
 for tweet in cfb_tl:
     if ("front page newspaper collage" in tweet.full_text.lower() and
+            day_of_the_week.lower() in tweet.full_text.lower() and
             is_recent_enough(tweet)):
         Collage.front_page_url = tweet.extended_entities["media"][0]["media_url"]
         Collage.tweet_link = "https://twitter.com/cfbcity/status/" + str(tweet._json["id"])
@@ -260,7 +261,8 @@ def post_album_on_reddit():
                "[Yesterday's papers](" + yesterdays_album_url + ")\n\n" +
                "---\n"+
                "This post and comment have been created by the PaperboyUK bot, written by Vermoot with help from /u/FordTippex.\n\n"+
-               "If you find an error in the album, such as a paper being mislabeled or an image that isn't a newspaper front page, reply to this comment and mention Vermoot so he can see it.\n\n")
+               "If you find an error in the album, such as a paper being mislabeled or an image that isn't a newspaper front page, "
+               "reply to this comment and mention Vermoot so he can see it.\n\n")
 
     if errors != "":
         comment += "Here are problems PaperboyUK has had today (Hey /u/Vermoot! Get on it!)\n\n"+errors
@@ -268,6 +270,7 @@ def post_album_on_reddit():
     reddit.submission(id=post.id).reply(comment)
 
     print("Posted the album on reddit")
+
 
 post_album_on_reddit()
 
