@@ -55,7 +55,7 @@ errors = ""
 
 
 def is_recent_enough(tweet):  # Verify the tweet isn't too old, to avoid fetching yesterday's front page
-    max_age = 12  # In hours
+    max_age = 15  # In hours
     if dt.datetime.utcnow() - tweet.created_at < dt.timedelta(hours=max_age):
         return True
 
@@ -146,6 +146,7 @@ CityAM = Paper("City A.M.", ["City A.M."], "cityam")
 MorningStar = Paper("Morning Star", ["Morning Star"], "M_Star_Online")
 TheHerald = Paper("The Herald", ["Herald"], "heraldscotland")
 TheScotsman = Paper("The Scotsman", ["Scotsman"], "TheScotsman")
+EveningStandard = Paper("London Evening Standard", ["Evening Standard", "London Evening Standard", "@EveningStandard"], "George_Osborne")
 # TODO Lymington Times, Refional Standard, Regional Observer, Western Morning News, Birmingham Mail,
 #  Manchester Evening News, Daily Echo (Southampton), Yorkshire Post, YNP
 # TODO Sunday Post, Jewish Chronicles,
@@ -153,7 +154,7 @@ TheScotsman = Paper("The Scotsman", ["Scotsman"], "TheScotsman")
 
 # Round them all up
 Papers = [TheSun, ScottishSun, DailyStar, DailyMirror, Metro, DailyMail, DailyExpress, Times, FinancialTimes, Guardian,
-          Telegraph, iNews, Independent, MorningStar, CityAM, TheNational, TheHerald, TheScotsman]
+          Telegraph, iNews, Independent, MorningStar, CityAM, EveningStandard, TheNational, TheHerald, TheScotsman]
 
 # Search for a frontpage image for each paper
 for paper in Papers:
