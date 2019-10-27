@@ -4,6 +4,8 @@ import imgurpython
 import praw
 import re
 
+print("Running PaperboyUK by Vermoot...")
+
 
 # Tweepy setup
 TWEEPY_CONSUMER_KEY = 'Tww4BA61Kysxd7NF501Z5oU4d'
@@ -181,16 +183,22 @@ for tweet in tw.user_timeline("walesonline", count=100, tweet_mode="extended"):
         for name in wales_online_names:
             if name.lower() in tweet.full_text.lower():
                 this_wo_paper = name
-        Papers.append(Paper(name=this_wo_paper,
-                            source="%s (@%s)" % (tweet.author.name, tweet.author.screen_name),
-                            tweet_link="https://twitter.com/walesonline/status/" + str(tweet._json["id"]),
-                            front_page_url=tweet.extended_entities["media"][0]["media_url"]))
-        print(this_wo_paper + " :")
-        print("\n" + tweet.full_text)
-        print("\n" + tweet.extended_entities["media"][0]["media_url"])
-        print("\nSource tweet : " + Papers[-1].tweet_link)
-        print("From the special WalesOnline treatment")
-        print("\n --- \n")
+        try:
+            Papers.append(Paper(name=this_wo_paper,
+                                source="%s (@%s)" % (tweet.author.name, tweet.author.screen_name),
+                                tweet_link="https://twitter.com/walesonline/status/" + str(tweet._json["id"]),
+                                front_page_url=tweet.extended_entities["media"][0]["media_url"]))
+            print(this_wo_paper + " :")
+            print("\n" + tweet.full_text)
+            print("\n" + tweet.extended_entities["media"][0]["media_url"])
+            print("\nSource tweet : " + Papers[-1].tweet_link)
+            print("From the special WalesOnline treatment")
+            print("\n --- \n")
+        except AttributeError:
+            error = "%s : False positive for a front page here : %s  \n"\
+                      % ("WalesOnline", "https://twitter.com/" + tweet.author.screen_name + "/status/" + str(tweet._json["id"]))
+            print(error)
+            errors += error
 
 # Special treatment for P&J regional papers  # TODO redo special treatments properly
 PnJnames = ["Aberdeen and Aberdeenshire", "Aberdeen", "North-East", "North East", "Moray",
@@ -202,16 +210,22 @@ for tweet in tw.user_timeline("pressjournal", count=100, tweet_mode="extended"):
         for name in PnJnames:
             if name.lower() in tweet.full_text.lower():
                 thisPnjPaper = name
-        Papers.append(Paper(name=("P&J " + thisPnjPaper),
-                            source="%s (@%s)" % (tweet.author.name, tweet.author.screen_name),
-                            tweet_link="https://twitter.com/pressjournal/status/" + str(tweet._json["id"]),
-                            front_page_url=tweet.extended_entities["media"][0]["media_url"]))
-        print("Press & Journal (" + thisPnjPaper + ") :")
-        print("\n" + tweet.full_text)
-        print("\n" + tweet.extended_entities["media"][0]["media_url"])
-        print("\nSource tweet : " + Papers[-1].tweet_link)
-        print("From the special P&J treatment")
-        print("\n --- \n")
+        try:
+            Papers.append(Paper(name=("P&J " + thisPnjPaper),
+                                source="%s (@%s)" % (tweet.author.name, tweet.author.screen_name),
+                                tweet_link="https://twitter.com/pressjournal/status/" + str(tweet._json["id"]),
+                                front_page_url=tweet.extended_entities["media"][0]["media_url"]))
+            print("Press & Journal (" + thisPnjPaper + ") :")
+            print("\n" + tweet.full_text)
+            print("\n" + tweet.extended_entities["media"][0]["media_url"])
+            print("\nSource tweet : " + Papers[-1].tweet_link)
+            print("From the special P&J treatment")
+            print("\n --- \n")
+        except AttributeError:
+            error = "%s : False positive for a front page here : %s  \n"\
+                      % ("PnJ", "https://twitter.com/" + tweet.author.screen_name + "/status/" + str(tweet._json["id"]))
+            print(error)
+            errors += error
 
 
 
