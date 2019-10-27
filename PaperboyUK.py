@@ -33,7 +33,7 @@ reddit = praw.Reddit(client_id='L5usbKU_UnkPOQ',
 dt = datetime
 
 # Date in D/M/Y format for use in imgur album name and other places
-target_date = dt.datetime.today() + dt.timedelta(days=1)
+target_date = dt.datetime.today() + dt.timedelta(days=0)
 today = "%02i/%02i/%02i" % (target_date.day,
                             target_date.month,
                             target_date.year)
