@@ -1,37 +1,16 @@
+import credentials
 import datetime
 import tweepy
-import imgurpython
-import praw
 import re
 
 
-# Tweepy setup
-TWEEPY_CONSUMER_KEY = 'Tww4BA61Kysxd7NF501Z5oU4d'
-TWEEPY_CONSUMER_SECRET = 'ccAVb7xayTQiFryYpbojDwK7cwbkNfoCeW1HizYz0BRIm6a5ce'
-TWEEPY_ACCESS_TOKEN = '31172325-kryUxxGBZVHRndlTR7LY98YxJTefhJmUsWXfzY7la'
-TWEEPY_ACCESS_TOKEN_SECRET = 'uSlHX9WjIbdk6IZv6il5vHu8faq8lZPvBRoLghSUJ3FTd'
-tweepy_auth = tweepy.OAuthHandler(TWEEPY_CONSUMER_KEY, TWEEPY_CONSUMER_SECRET)
-tweepy_auth.set_access_token(TWEEPY_ACCESS_TOKEN, TWEEPY_ACCESS_TOKEN_SECRET)
-tw = tweepy.API(tweepy_auth)
-
-# imgurpython setup
-imgur_client_id = "ead7ce771e178d2"
-imgur_client_secret = "196a777f20644b5d610a5dfa0d44663026188b45"
-imgur_access_token = "6e7cba4ce264bd0abed0df98e525e99ca11b853e"
-imgur_refresh_token = "769076576f11632c6621e3f1376a489afdeb19f7"
-imgur = imgurpython.ImgurClient(imgur_client_id, imgur_client_secret, imgur_access_token, imgur_refresh_token)
-
-# praw (Reddit Python API) setup
-reddit = praw.Reddit(client_id='L5usbKU_UnkPOQ',
-                     client_secret='ZDvGyzsD-pAY42hZH7QRaYRzPuY',
-                     refresh_token="261991416840-7A-g7GlzZeV_8gT5K2Ru1-19JZY",
-                     user_agent='/r/ukpolitics Paperboy by Vermoot',
-                     username='PaperboyUK')
-
+tw = credentials.tw
+imgur = credentials.imgur
+reddit = credentials.reddit
 dt = datetime
 
 # Date in D/M/Y format for use in imgur album name and other places
-target_date = dt.datetime.today() + dt.timedelta(days=1)
+target_date = dt.datetime.today() + dt.timedelta(days=0)  # + timedelta is for daylight savings, the bot runs at 2330
 today = "%02i/%02i/%02i" % (target_date.day,
                             target_date.month,
                             target_date.year)
@@ -245,6 +224,7 @@ def upload_frontpages():
 
 upload_frontpages()
 
+# Post album on Reddit
 
 def post_album_on_reddit():
     yesterdays_album_url = "http://www.imgur.com/a/" + imgur.get_account_album_ids("PaperboyUK")[1]
