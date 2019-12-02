@@ -155,8 +155,8 @@ EveningStandard = Paper("London Evening Standard", ["Evening Standard", "London 
 # TODO Belfast Telegraph, Irish News
 
 # Round them all up
-Papers = [TheSun, ScottishSun, DailyStar, DailyMirror, Metro, DailyMail, DailyExpress, Times, FinancialTimes, Guardian,
-          Telegraph, iNews, Independent, MorningStar, CityAM, EveningStandard, TheNational, TheHerald, TheScotsman]
+Papers = [TheSun, ScottishSun, DailyMirror, Metro, DailyMail, DailyExpress, Times, FinancialTimes, Guardian,
+          Telegraph, iNews, Independent, MorningStar, CityAM, EveningStandard, TheNational, TheHerald, TheScotsman] # TODO DailyStar was removed because the twitter account doesn't exist anymore
 
 # Search for a frontpage image for each paper
 for paper in Papers:
@@ -257,7 +257,7 @@ def upload_frontpages():
             print("There was no image to upload for " + paper.name + ".")
 
 
-upload_frontpages()
+#upload_frontpages()
 
 
 def post_album_on_reddit():
@@ -287,5 +287,5 @@ def post_album_on_reddit():
     print("Posted the album on reddit")
 
 
-post_album_on_reddit()
+#post_album_on_reddit()
 
