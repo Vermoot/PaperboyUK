@@ -1,4 +1,4 @@
-#!/Users/vermoot/PycharmProjects/UK_Politics_Papers/venv/bin/python
+#!/Users/vermoot/PycharmProjects/PaperboyUK/venv/bin/python
 
 import argparse
 import code

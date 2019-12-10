@@ -25,6 +25,8 @@ BBCtimeline = (tw.user_timeline("BBCNews", count=100, tweet_mode="extended", pag
                tw.user_timeline("MsHelicat", count=100, tweet_mode="extended", page=1,
                                 include_rts="false", exclude_replies="true") +
                tw.user_timeline("hendopolis", count=100, tweet_mode="extended", page=1,
+                                include_rts="false", exclude_replies="true") +
+               tw.user_timeline("BBCHelena", count=100, tweet_mode="extended", page=1,
                                 include_rts="false", exclude_replies="true"))
 
 # Get the last 300 #tomorrowspaperstoday tweets (about a day)
@@ -222,7 +224,7 @@ def upload_frontpages():
             print("There was no image to upload for " + paper.name + ".")
 
 
-#upload_frontpages()
+upload_frontpages()
 
 # Post album on Reddit
 
@@ -253,5 +255,5 @@ def post_album_on_reddit():
     print("Posted the album on reddit")
 
 
-#post_album_on_reddit()
+post_album_on_reddit()
 

@@ -1,5 +1,4 @@
-#!/Users/vermoot/PycharmProjects/UK_Politics_Papers/venv/bin/python
-
+#!/Users/vermoot/PycharmProjects/PaperboyUK/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
